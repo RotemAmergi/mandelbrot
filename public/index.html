@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mendelbrot</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--designe-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="includes/style.css">
+    <!--functionality-->
+    <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="/includes/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.2.1/mustache.min.js"></script>
+</head>
+<body>
+<div id="wrapper">
+    <div class="container">
+                <div id="Picture" class="col-md-offset-2 col-md-8">
+					<div class="row">
+					    <h4 class="page-header" id="image-gallery">Mandelbrot</h4>
+							<!--Form -->
+							<div id="getPic">
+								<form class="form" action="/images" method="post" enctype="multipart/form-data" id="get">
+									<fieldset>
+										<label for="name">Params For Pic:</label>
+										<br/>
+										<br/>
+										<label for="name">Num of iterations:</label>
+										<input type="text" id="iterations" name="iterations" placeholder="number of iterations"/>
+										<br/>
+										<label for="name">X value:</label>
+										<input type="text" id="X" name="X" placeholder="number of frags required for x axis"/>
+										<br/>
+										<label for="name">Y value:</label>
+										<input type="text" id="Y" name="Y" placeholder="number of frags required for y axis"/>
+										<br/>
+										<br/>
+										<input type="submit" id="uppic" value="GET"/>
+										<input type="button" id="cancel" value="Cancel"/>
+										<br/>
+									</fieldset>
+								</form>
+							</div>
+							<br/>
+					</div>
+                </div>
+     </div>
+ </div>
+        <hr>
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <p>Copyright &copy; <a href="#">Rotem&Atalia</a></p>
+            </div>
+        </footer>
+   
+</div>
+<script>
+    (function () {
+        //	create();
+    })();
+</script>
+</body>
+</html>
+
