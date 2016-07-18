@@ -1,11 +1,10 @@
 // call the packages we need
 // Dependencies
-var express = require('express');
 var PORT = process.env.PORT || 8080;
 var PNG = require('node-png').PNG,
 	fs = require('fs'),
 	http = require('http');
-var app = express();
+
 
 
 function make_mandel(w, h, iters, sx, ex, sy, ey)
@@ -68,7 +67,7 @@ function coloring(iteration, maxIterations){
 var colorMap = [[255,0,0], [255,17,0], [255,34,0], [255,51,0], [255,68,0], [255,85,0], [255,102,0], [255,119,0], [255,136,0], [255,153,0], [255,170,0], [255,187,0], [255,204,0], [255,221,0], [255,238,0], [255,255,0], [255,255,0], [255,238,0], [255,221,0], [255,204,0], [255,187,0], [255,170,0], [255,153,0], [255,136,0], [255,119,0], [255,102,0], [255,85,0], [255,68,0], [255,51,0], [255,34,0], [255,17,0], [255,0,0] ];
 function lerp(v0,v1,t){return (1-t)*v0+t*v1;}
 
-app.use(express.static('public'));
+
 http.createServer(function(req, res) {
 	res.writeHead(200, {'Content-Type': 'image/png'});
     

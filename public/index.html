@@ -10,37 +10,45 @@
     <!--functionality-->
     <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    <script src="/includes/script.js"></script>
+    <script src="includes/script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.2.1/mustache.min.js"></script>
 </head>
 <body>
 <div id="wrapper">
     <div class="container">
-                <div id="Picture" class="col-md-offset-2 col-md-8">
-					<div class="row">
-					    <h4 class="page-header" id="image-gallery">Mandelbrot</h4>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+					    <h4 class="page-header" id="image-params">Mandelbrot</h4>
 							<!--Form -->
-							<div id="getPic">
+							<div id="formGetPic">
 								<form class="form" action="/images" method="post" enctype="multipart/form-data" id="get">
 									<fieldset>
-										<label for="name">Params For Pic:</label>
-										<br/>
-										<br/>
+										<h3>Params For Pic:</h3>
 										<label for="name">Num of iterations:</label>
-										<input type="text" id="iterations" name="iterations" placeholder="number of iterations"/>
-										<br/>
+										<input type="number" id="iterations" name="iterations" placeholder="number of iterations"/>
+										<p>The higher the number of iterations you choose to use the more detailed the Mandelbrot will be but the slower it will run.</p>
 										<label for="name">X value:</label>
-										<input type="text" id="X" name="X" placeholder="number of frags required for x axis"/>
+										<input type="number" id="X" name="X" placeholder="number of frags required for x axis"/>
 										<br/>
 										<label for="name">Y value:</label>
-										<input type="text" id="Y" name="Y" placeholder="number of frags required for y axis"/>
+										<input type="number" id="Y" name="Y" placeholder="number of frags required for y axis"/>
 										<br/>
 										<br/>
-										<input type="submit" id="uppic" value="GET"/>
-										<input type="button" id="cancel" value="Cancel"/>
+										<input type="submit" id="getPic" value="GET"/>
 										<br/>
 									</fieldset>
 								</form>
+								</br>
+								<p>You can zoom in by clicking and dragging on the Mandelbrot.</p>
+								<p>You can always return to the top of the Mandelbrot by clicking Reset.</p>
+								<input type="button" id="reset" value="Reset"/>
+								</br>
+								 <div id="image" class="col-md-offset-2 col-md-8">
+									<img src="#"> <!-- this is only for test -->
+									<!-- here we need to put the DB name that holds the images
+									<img src="{{image}}">
+									-->
+								</div>
 							</div>
 							<br/>
 					</div>
@@ -50,12 +58,9 @@
         <hr>
         <!-- Footer -->
         <footer>
-            <div class="row">
-                <p>Copyright &copy; <a href="#">Rotem&Atalia</a></p>
-            </div>
+                <p>Copyright &copy; <a href="#">Rotem&Atalia </a></p>
         </footer>
-   
-</div>
+ 
 <script>
     (function () {
         //	create();
