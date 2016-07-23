@@ -1,11 +1,17 @@
 // call the packages we need
 // Dependencies
-var PORT = process.env.PORT || 8080;
+var PORT = 8080;
 var PNG = require('node-png').PNG,
 	fs = require('fs'),
-	http = require('http');
+	http = require('http'),
+	express = require('express'),
+	index = express(),
+	path = require('path');
 
 
+index.engine('html', require('ejs').renderFile);
+index.set('views', __dirname + '/public');
+index.set('view engine', 'html');
 
 function make_mandel(w, h, iters, sx, ex, sy, ey)
 {
@@ -66,30 +72,46 @@ function coloring(iteration, maxIterations){
 }
 var colorMap = [[255,0,0], [255,17,0], [255,34,0], [255,51,0], [255,68,0], [255,85,0], [255,102,0], [255,119,0], [255,136,0], [255,153,0], [255,170,0], [255,187,0], [255,204,0], [255,221,0], [255,238,0], [255,255,0], [255,255,0], [255,238,0], [255,221,0], [255,204,0], [255,187,0], [255,170,0], [255,153,0], [255,136,0], [255,119,0], [255,102,0], [255,85,0], [255,68,0], [255,51,0], [255,34,0], [255,17,0], [255,0,0] ];
 function lerp(v0,v1,t){return (1-t)*v0+t*v1;}
-
-
-http.createServer(function(req, res) {
+function calculateMandelbrot(req, res, sx,ex, sy, ey, max_iter, width, height) {
 	res.writeHead(200, {'Content-Type': 'image/png'});
-    
- 	var parts = req.url.split("/"),
-		sx = parseFloat(parts[1]),
-		ex = parseFloat(parts[2]),
-		sy = parseFloat(parts[3]),
-		ey = parseFloat(parts[4]),
-		max_iter = parseFloat(parts[5]);
-		width = parseInt(parts[6]);
-		height= parseInt(parts[7]);
 
-	console.log("Requesting "+sx+", "+ex+", "+sy+", "+ey+", "+max_iter)
+	console.log("Requesting " + sx + ", " + ex + ", " + sy + ", " + ey + ", " + max_iter)
 	var p = make_mandel(width, height, max_iter, sx, ex, sy, ey);
-	var bufs=[]
-	p.pack().on('data', function(data) {
+	var bufs = []
+	p.pack().on('data', function (data) {
 		bufs.push(data)
-	}).on('end', function(data) {
-		if(data)
+	}).on('end', function (data) {
+		if (data)
 			bufs.push(data)
 		ret = Buffer.concat(bufs)
 		res.end(ret)
 	})
-}).listen(PORT, '0.0.0.0');
-console.log('Server running at http://0.0.0.0:'+PORT);
+}
+index.use(express.static("public"));
+index.get('/', function(req,res){
+	var iterations = req.query.iterations;
+	var width = req.query.xParts;
+	var height = req.query.yParts;
+
+	if(!iterations || !width || !height)
+		return res.status(422).send("Invalid parameters: use ?iterations=XX&xParts=XX&yParts=XX"); // (Unprocessable entity)
+	console.log("Here");
+	res.render('index', { startData: 'var iterations=' + iterations + ',width=' + width + ',height=' + height });
+})
+
+index.get('/:sx/:ex/:sy/:ey/:iter/:w/:h', function(req,res){
+	var parts = req.url.split("/"),
+		sx = parseFloat(parts[1]),
+		ex = parseFloat(parts[2]),
+		sy = parseFloat(parts[3]),
+		ey = parseFloat(parts[4]),
+		max_iter = parseFloat(parts[5]),
+		width = parseInt(parts[6]),
+		height = parseInt(parts[7]);
+
+	calculateMandelbrot(req,res, sx, ex, sy, ey, max_iter, width, height);
+})
+
+index.listen(PORT, function(){
+	console.log('Server running at http://0.0.0.0:'+PORT);
+})
